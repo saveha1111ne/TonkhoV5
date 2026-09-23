@@ -23,6 +23,9 @@ interface HeaderProps {
   onOpenExcelImport: () => void;
   onOpenGoogleSheetSync: () => void;
   onDownloadSingleHtml: () => void;
+  firebaseConnected?: boolean;
+  isFirebaseSyncing?: boolean;
+  onOpenFirebaseModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -34,7 +37,10 @@ export const Header: React.FC<HeaderProps> = ({
   onExportCSV,
   onOpenExcelImport,
   onOpenGoogleSheetSync,
-  onDownloadSingleHtml
+  onDownloadSingleHtml,
+  firebaseConnected = false,
+  isFirebaseSyncing = false,
+  onOpenFirebaseModal
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-white shadow-md">
@@ -62,15 +68,36 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Developer & Hotline Info */}
-          <div className="flex flex-col sm:items-end items-center text-xs">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/15 hover:bg-white/25 transition border border-white/30 rounded-full font-semibold text-white backdrop-blur-sm shadow-sm">
-              <span>Made by</span>
-              <span className="font-bold text-yellow-300">Ha Nhung logistic</span>
+          {/* Right: Firebase Cloud Badge & Hotline */}
+          <div className="flex flex-col sm:items-end items-center text-xs gap-1.5">
+            <div className="flex items-center gap-2">
+              {/* Firebase Cloud Live Badge */}
+              <button
+                onClick={onOpenFirebaseModal}
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 hover:bg-white/30 transition border border-white/35 rounded-full font-bold text-white text-[11px] backdrop-blur-md shadow-xs active:scale-95"
+                title="Bấm để xem chi tiết kết nối đám mây Firebase Firestore"
+              >
+                <span className={`w-2 h-2 rounded-full ${
+                  isFirebaseSyncing 
+                    ? 'bg-yellow-300 animate-ping' 
+                    : firebaseConnected 
+                    ? 'bg-emerald-400 animate-pulse' 
+                    : 'bg-amber-400'
+                }`} />
+                <span>
+                  {isFirebaseSyncing ? 'Đang đồng bộ...' : firebaseConnected ? '☁️ Cloud Firestore: Real-time' : '☁️ Cloud: Cục bộ/Kết nối'}
+                </span>
+              </button>
+
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/15 hover:bg-white/25 transition border border-white/30 rounded-full font-semibold text-white backdrop-blur-sm">
+                <span>Made by</span>
+                <span className="font-bold text-yellow-300">Ha Nhung logistic</span>
+              </div>
             </div>
+
             <a 
               href="tel:0901601600" 
-              className="mt-1.5 inline-flex items-center gap-1.5 font-black text-white hover:text-yellow-300 transition text-sm drop-shadow"
+              className="inline-flex items-center gap-1.5 font-black text-white hover:text-yellow-300 transition text-sm drop-shadow"
             >
               <PhoneCall className="w-4 h-4 text-emerald-300 animate-pulse" />
               <span>Hotline: 0901601600</span>

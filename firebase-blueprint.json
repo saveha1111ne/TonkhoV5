@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "Item": {
+      "title": "Item",
+      "description": "Vật tư hàng hóa trong kho CIC",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "code": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 255 },
+        "unit": { "type": "string", "maxLength": 32 },
+        "category": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "minStockAlert": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["code", "name", "unit"]
+    },
+    "Branch": {
+      "title": "Branch",
+      "description": "Chi nhánh quản lý kho CIC",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "code": { "type": "string", "maxLength": 32 },
+        "name": { "type": "string", "maxLength": 128 },
+        "region": { "type": "string", "maxLength": 64 },
+        "address": { "type": "string", "maxLength": 255 },
+        "phone": { "type": "string", "maxLength": 32 }
+      },
+      "required": ["id", "code", "name", "region"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Phiếu giao dịch nhập kho hoặc xuất kho",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "code": { "type": "string", "maxLength": 64 },
+        "type": { "type": "string", "enum": ["IN", "OUT"] },
+        "month": { "type": "string", "maxLength": 32 },
+        "date": { "type": "string", "maxLength": 32 },
+        "branchId": { "type": "string", "maxLength": 64 },
+        "branchName": { "type": "string", "maxLength": 128 },
+        "itemCode": { "type": "string", "maxLength": 64 },
+        "itemName": { "type": "string", "maxLength": 255 },
+        "unit": { "type": "string", "maxLength": 32 },
+        "quantity": { "type": "number" },
+        "receiverOrDeliverer": { "type": "string", "maxLength": 128 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["code", "type", "month", "date", "branchId", "itemCode", "quantity"]
+    },
+    "SystemMeta": {
+      "title": "SystemMeta",
+      "description": "Thông tin cấu hình tháng và tồn đầu cơ sở của hệ thống",
+      "type": "object",
+      "properties": {
+        "months": { "type": "string" },
+        "baselineStock": { "type": "string" },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      }
+    }
+  },
+  "firestore": {
+    "/cic_items/{itemId}": {
+      "schema": "Item",
+      "description": "Danh mục mã vật tư hàng hóa của Team CIC"
+    },
+    "/cic_branches/{branchId}": {
+      "schema": "Branch",
+      "description": "Danh sách các chi nhánh kho toàn quốc"
+    },
+    "/cic_transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Lịch sử giao dịch nhập/xuất kho real-time"
+    },
+    "/cic_meta/{metaId}": {
+      "schema": "SystemMeta",
+      "description": "Dữ liệu kỳ tháng và tồn kho đầu kỳ cơ sở"
+    }
+  }
+}
