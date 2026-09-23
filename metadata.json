@@ -1,0 +1,6 @@
+{
+  "name": "HỆ THỐNG QUẢN LÝ HÀNG TỒN KHO TEAM CIC",
+  "description": "Hệ thống quản lý hàng tồn kho chuyên nghiệp cho Team CIC với đầy đủ nhập, xuất, tồn, chuyển tháng, đồng bộ Google Sheets và báo cáo đa chi nhánh. Made by Ha Nhung logistic - Hotline: 0901601600.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
