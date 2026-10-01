@@ -14,14 +14,57 @@
   </head>
   <body class="bg-[#F5FBFA] text-slate-800 antialiased font-sans min-h-screen">
 <script>
-    (function() {
-      var pass = prompt("Nhập mật khẩu quản trị để truy cập hệ thống kho:");
-      // Chị có thể đổi chữ 'nhung2026' thành mật khẩu bất kỳ mà chị muốn
-      if (pass !== "nhung2026") {
-        document.write("<h2 style='text-align:center; margin-top:50px; font-family:sans-serif; color:red;'>Sai mật khẩu! Bạn không có quyền truy cập hệ thống này.</h2>");
-        throw new Error("Unauthorized");
+  (function() {
+    // Nếu chưa mở khóa thì ẩn các nút chỉnh sửa
+    if (localStorage.getItem("admin_unlocked") !== "true") {
+      window.addEventListener('DOMContentLoaded', function() {
+        function lockActionButtons() {
+          var buttons = document.querySelectorAll('button');
+          buttons.forEach(function(btn) {
+            var text = btn.innerText.toLowerCase();
+            if (text.includes('thêm') || text.includes('sửa') || text.includes('xóa') || text.includes('lưu') || text.includes('tạo') || text.includes('nhập') || text.includes('xuất')) {
+              btn.style.opacity = "0.4";
+              btn.style.pointerEvents = "none";
+              btn.title = "Chức năng này yêu cầu quyền quản trị!";
+            }
+          });
+        }
+        lockActionButtons();
+        setTimeout(lockActionButtons, 1000);
+      });
+    }
+
+    // Tự động tạo nút Mở khóa ở góc màn hình cho chị
+    window.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem("admin_unlocked") !== "true") {
+        var unlockBtn = document.createElement('button');
+        unlockBtn.innerHTML = "🔓 Mở khóa Quản trị";
+        unlockBtn.style.position = "fixed";
+        unlockBtn.style.bottom = "10px";
+        unlockBtn.style.right = "10px";
+        unlockBtn.style.zIndex = "9999";
+        unlockBtn.style.padding = "8px 12px";
+        unlockBtn.style.background = "#0f172a";
+        unlockBtn.style.color = "#fff";
+        unlockBtn.style.border = "none";
+        unlockBtn.style.borderRadius = "6px";
+        unlockBtn.style.cursor = "pointer";
+        unlockBtn.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
+        
+        unlockBtn.onclick = function() {
+          var p = prompt("Nhập mật khẩu quản trị:");
+          if (p === "nhung2026") {
+            localStorage.setItem("admin_unlocked", "true");
+            alert("Mở khóa thành công! Trang web sẽ tải lại.");
+            location.reload();
+          } else if (p !== null) {
+            alert("Sai mật khẩu!");
+          }
+        };
+        document.body.appendChild(unlockBtn);
       }
-    })();
+    });
+  })();
   </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
