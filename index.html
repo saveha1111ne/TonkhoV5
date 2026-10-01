@@ -13,6 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#F5FBFA] text-slate-800 antialiased font-sans min-h-screen">
+<script>
+    (function() {
+      var pass = prompt("Nhập mật khẩu quản trị để truy cập hệ thống kho:");
+      // Chị có thể đổi chữ 'nhung2026' thành mật khẩu bất kỳ mà chị muốn
+      if (pass !== "nhung2026") {
+        document.write("<h2 style='text-align:center; margin-top:50px; font-family:sans-serif; color:red;'>Sai mật khẩu! Bạn không có quyền truy cập hệ thống này.</h2>");
+        throw new Error("Unauthorized");
+      }
+    })();
+  </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
